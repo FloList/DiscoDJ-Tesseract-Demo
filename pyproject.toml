@@ -1,0 +1,20 @@
+[project]
+name = "discodj-tesseract-demo"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "discodj @ git+https://github.com/cosmo-sims/DISCO-DJ.git",
+    "equinox>=0.13.8",
+    "ipykernel>=7.2.0",
+    "ipython>=9",
+    "jax>=0.10",
+    "matplotlib>=3.10.9",
+    "numpy>=2",
+    "pillow>=12.2.0",
+    "plotly>=6",
+    "pydantic>=2.13",
+    "scipy>=1.17.1",
+    "tesseract-core[runtime]>=1.8.2",
+    "tesseract-jax>=0.3.0",
+    "tqdm>=4.67.3",
+]

@@ -1,0 +1,11 @@
+name: discodj-ic-optimization
+version: "0.1.0"
+description: |
+  Tesseract: DiscoDJ 3D Vlasov-Poisson initial-condition optimization forward model.
+
+build_config:
+  extra_packages:
+    - build-essential
+    - libgsl-dev
+  package_data: []
+  custom_build_steps: []
