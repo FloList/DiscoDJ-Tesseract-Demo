@@ -1,0 +1,13 @@
+name: "discodj-external-ics-forward"
+version: "0.1.0"
+description: |
+  DiscoDJ 3D density evolution model with externally supplied linear
+  density contrast initial conditions. The background cosmology is fixed by
+  the demo bundle.
+
+build_config:
+  extra_packages:
+    - build-essential
+    - libgsl-dev
+  package_data: []
+  custom_build_steps: []

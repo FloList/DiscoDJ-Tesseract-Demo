@@ -10,3 +10,5 @@ venv/
 .DS_Store
 /outputs/
 /tmp_*.py
+/discodj_tesseract_example/enzyme_fgpa_loga/outputs/
+/discodj_tesseract_example/enzyme_fgpa_loga/targets/

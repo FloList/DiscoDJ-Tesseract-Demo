@@ -1,0 +1,46 @@
+name: "fgpa-skewer-tesseract"
+version: "0.1.0"
+description: |
+  Fluctuating Gunn-Peterson Approximation skewer Tesseract.
+  Maps a 3D density contrast field to grid-aligned Lyman-alpha transmitted
+  flux skewers with F = exp(-exp(log_A) * max(1 + delta, rho_floor)**beta).
+  Differentiable with respect to the density field, log_A, and beta using
+  Enzyme AD.
+
+build_config:
+  base_image: "debian:bookworm-slim"
+  target_platform: "linux/amd64"
+
+  extra_packages:
+    - wget
+    - gnupg
+    - ca-certificates
+    - bzip2
+    - build-essential
+
+  package_data:
+    - ["enzyme/fgpa_skewer.f90", "enzyme/fgpa_skewer.f90"]
+    - ["enzyme/wrapper.c", "enzyme/wrapper.c"]
+    - ["enzyme/build.sh", "enzyme/build.sh"]
+
+  custom_build_steps:
+    - |
+      RUN wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc && \
+          echo "deb http://apt.llvm.org/bookworm/ llvm-toolchain-bookworm-19 main" > /etc/apt/sources.list.d/llvm.list && \
+          apt-get update && apt-get install -y --no-install-recommends llvm-19 clang-19 && \
+          rm -rf /var/lib/apt/lists/* && \
+          for tool in opt llvm-as llvm-link llvm-dis llc clang clang++; do \
+            ln -sf /usr/bin/${tool}-19 /usr/local/bin/${tool} 2>/dev/null || true; \
+          done
+    - |
+      RUN wget -q https://github.com/mamba-org/micromamba-releases/releases/latest/download/micromamba-linux-64 \
+            -O /usr/local/bin/micromamba && chmod +x /usr/local/bin/micromamba && \
+          MAMBA_ROOT_PREFIX=/opt/conda micromamba create -y -n base -c conda-forge lfortran=0.61.0 && \
+          ln -sf $(find /opt/conda -name lfortran -type f | head -1) /usr/local/bin/lfortran && \
+          echo /opt/conda/lib > /etc/ld.so.conf.d/conda.conf && ldconfig
+    - |
+      RUN wget -q https://github.com/EnzymeAD/Enzyme/releases/download/nightly/LLVMEnzyme-19.so \
+            -O /usr/local/lib/LLVMEnzyme-19.so
+    - |
+      RUN chmod +x /tesseract/enzyme/build.sh && \
+          /tesseract/enzyme/build.sh /tesseract/enzyme/libfgpa_ad.so
