@@ -1,6 +1,8 @@
 # Lyman-alpha Enzyme Demo
 
-This demo combines Disco-DJ with a Fortran post-processing Tesseract differentiated by Enzyme.
+![Workflow](workflow.png)
+
+This demo combines Disco-DJ with a Fortran post-processing Tesseract autodifferentiated by Enzyme.
 The notebook maps a Fourier-space white-noise field to a linear density field using
 Disco-DJ's built-in Eisenstein-Hu linear power spectrum, then evolves that linear density
 field with a Disco-DJ Tesseract via the Zel'dovich approximation. The FGPA Tesseract turns the density into 256 random
@@ -9,12 +11,12 @@ field with a Disco-DJ Tesseract via the Zel'dovich approximation. The FGPA Tesse
 ```text
 F = exp(-exp(log_A) * (1 + delta)**beta),
 ```
-known as the Fluctuating Gunn-Peterson approximation (FGPA),  where `delta` is the evolved density contrast (such that `rho = 1 + delta`), `log_A` and `beta` are global parameters, and `F` is the transmitted flux.
-The notebook infers the white-noise field and one global FGPA parameter, `log_A`, while
+known as the *Fluctuating Gunn-Peterson approximation (FGPA)*,  where `delta` is the evolved density contrast (such that `rho = 1 + delta`), `log_A` and `beta` are global parameters, and `F` is the transmitted flux.
+From the noisy skewers, the notebook infers the white-noise field and one global FGPA parameter, `log_A`, while
 keeping `beta` fixed. It first uses L-BFGS to enter the correct basin from a deliberately
 wrong `A = 0.8` (`log_A = -0.223144`), then runs adapted-diagonal HMC to sample the posterior.
-The default setup is a single-precision `64^3` target with flux-noise standard deviation `0.03` and a true value of `A = 0.35` (`log_A = -1.0498`).
-    
+The default setup is a `64^3` target with flux-noise standard deviation `0.03` and a true value of `A = 0.35` (`log_A = -1.0498`).
+
 ![3D posterior sample](posterior_example_3d.png)
 ![Posterior samples](posterior_example.gif)
 
