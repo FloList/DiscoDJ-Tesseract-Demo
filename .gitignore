@@ -12,3 +12,4 @@ venv/
 /tmp_*.py
 /discodj_tesseract_example/enzyme_fgpa_loga/outputs/
 /discodj_tesseract_example/enzyme_fgpa_loga/targets/
+/discodj_tesseract_example/enzyme_fgpa_loga/workflow.svg
